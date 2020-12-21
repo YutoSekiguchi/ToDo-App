@@ -1,0 +1,55 @@
+{% extends 'app/base.html' %}
+{% load widget_tweaks %}
+
+{% block content %}
+
+<div class="card">
+  <div class="card-body">
+    <h3 class="card-title mb-3">ToDoリスト</h3>
+    <div class="mb-4">
+      <form method="POST">
+        {% csrf_token %}
+        <div class="d-flex">
+          <div class="w-100 mr-2">
+            {% render_field form.title class='form-control' praceholder='タイトルを入力' %}
+          </div>
+          <div class="date mr-2">
+            {% render_field form.deadline class="form-control" %}
+          </div>
+          <button class="btn btn-success add" type="submit">追加</button>
+        </div>
+      </form>
+    </div>
+    <div class="">
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">ToDo</th>
+            <th scope="col" class="deadline">期限</th>
+            <th scope="col" class="edit">編集</th>
+            <th scope="col" class="delete">削除</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for todo in todo_data %}
+            <tr>
+              <td>{{todo.title}}</td>
+              <td>{{todo.deadline}}</td>
+              <td><a href="{% url 'edit' todo.id %}">
+                <i class="fas fa-edit text-success"></i>
+              </a></td>
+              <td><a href="{% url 'delete' todo.id %}">
+                <i class="fas fa-trash-alt text-danger"></i>
+              </a></td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+
+<hr>
+
+{% endblock %}
